@@ -33,8 +33,8 @@ export function getEtherscanLink(
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
   let prefix;
-  // if (chainId == ChainId.HARMONY)
-  //   prefix = `https://explorer..harmony.one`
+  if (chainId == ChainId.MAINNET)
+    prefix = `https://explorer.harmony.one`
   if (chainId === ChainId.TESTNET)
     prefix = `https://explorer.testnet.harmony.one`
   // else

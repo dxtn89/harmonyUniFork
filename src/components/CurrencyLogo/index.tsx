@@ -1,4 +1,4 @@
-import { Currency, ETHER, HARMONYONE, Token } from 'constants/uniswap'
+import { Currency, ETHER, Token } from 'constants/uniswap'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -37,7 +37,7 @@ export default function CurrencyLogo({
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {
-    if (currency === ETHER || currency === HARMONYONE) return []
+    if (currency === ETHER) return []
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
@@ -49,10 +49,6 @@ export default function CurrencyLogo({
   }, [currency, uriLocations])
 
   if (currency === ETHER) {
-    return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
-  }
-
-  if (currency === HARMONYONE) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
   }
 

@@ -1,4 +1,4 @@
-import { Currency, ETHER, HARMONYONE, Token } from 'constants/uniswap'
+import { Currency, ETHER, Token } from 'constants/uniswap'
 import React, { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'
@@ -94,12 +94,6 @@ export function CurrencySearch({
 
   const showETH: boolean = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
-    return s === '' || s === 'e' || s === 'et' || s === 'eth'
-  }, [debouncedQuery])
-
-  const showONE: boolean = useMemo(() => {
-    const s = debouncedQuery.toLowerCase().trim()
-
     return s === '' || s === 'o' || s === 'on' || s === 'one'
   }, [debouncedQuery])
 
@@ -141,10 +135,8 @@ export function CurrencySearch({
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         const s = debouncedQuery.toLowerCase().trim()
-        if (s === 'eth') {
+        if (s === 'one') {
           handleCurrencySelect(ETHER)
-        } if (s === 'one') {
-          handleCurrencySelect(HARMONYONE)
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === debouncedQuery.trim().toLowerCase() ||
@@ -204,7 +196,6 @@ export function CurrencySearch({
               <CurrencyList
                 height={height}
                 showETH={showETH}
-                showONE={showONE}
                 currencies={
                   filteredInactiveTokens ? filteredSortedTokens.concat(filteredInactiveTokens) : filteredSortedTokens
                 }

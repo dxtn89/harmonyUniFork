@@ -293,13 +293,14 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   // [ChainId.GÖRLI]: 'Görli',
   // [ChainId.KOVAN]: 'Kovan',
   // [ChainId.HARMONY]: 'Harmony',
+  [ChainId.MAINNET]: 'Harmony',  
   [ChainId.TESTNET]: 'Harmony Testnet',
 }
 
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
- 
+
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   // const [isDark] = useDarkModeManager()
   const [darkMode, toggleDarkMode] = useDarkModeManager()

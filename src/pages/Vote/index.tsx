@@ -114,13 +114,14 @@ export default function Vote() {
 
   // user data
   const availableVotes: TokenAmount | undefined = useUserVotes()
-  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? UNI[chainId] : undefined)
+  // const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? UNI[chainId] : undefined)
   const userDelegatee: string | undefined = useUserDelegatee()
 
   // show delegation option if they have have a balance, but have not delegated
-  const showUnlockVoting = Boolean(
-    uniBalance && JSBI.notEqual(uniBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
-  )
+  // const showUnlockVoting = Boolean(
+  //   uniBalance && JSBI.notEqual(uniBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
+  // )
+  const showUnlockVoting = false
 
   return (
     <PageWrapper gap="lg" justify="center">
@@ -174,14 +175,16 @@ export default function Vote() {
             <TYPE.body fontWeight={500} mr="6px">
               <FormattedCurrencyAmount currencyAmount={availableVotes} /> Votes
             </TYPE.body>
-          ) : uniBalance &&
-            userDelegatee &&
-            userDelegatee !== ZERO_ADDRESS &&
-            JSBI.notEqual(JSBI.BigInt(0), uniBalance?.raw) ? (
-            <TYPE.body fontWeight={500} mr="6px">
-              <FormattedCurrencyAmount currencyAmount={uniBalance} /> Votes
-            </TYPE.body>
-          ) : (
+          )
+          //  : uniBalance &&
+          //   userDelegatee &&
+          //   userDelegatee !== ZERO_ADDRESS &&
+          //   JSBI.notEqual(JSBI.BigInt(0), uniBalance?.raw) ? (
+          //   <TYPE.body fontWeight={500} mr="6px">
+          //     <FormattedCurrencyAmount currencyAmount={uniBalance} /> Votes
+          //   </TYPE.body>
+          // ) 
+          : (
             ''
           )}
         </WrapSmall>
@@ -195,8 +198,7 @@ export default function Vote() {
                 </TYPE.body>
                 <AddressButton>
                   <StyledExternalLink
-                    // href={getEtherscanLink(ChainId.MAINNET, userDelegatee, 'address')}
-                    href={getEtherscanLink(ChainId.TESTNET, userDelegatee, 'address')}
+                    href={getEtherscanLink(ChainId.MAINNET, userDelegatee, 'address')}
                     style={{ margin: '0 4px' }}
                   >
                     {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}

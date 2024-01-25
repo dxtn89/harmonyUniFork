@@ -1,3 +1,4 @@
+import { ETHER } from 'constants/uniswap';
 /**
  * A currency is any fungible financial instrument on Ethereum, including Ether and all ERC20 tokens.
  *
@@ -10,8 +11,8 @@ export declare class Currency {
     /**
      * The only instance of the base class `Currency`.
      */
+    // static readonly ETHER: Currency;
     static readonly ETHER: Currency;
-    static readonly HARMONYONE: Currency;
     /**
      * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.ETHER`.
      * @param decimals decimals of the currency
@@ -20,6 +21,6 @@ export declare class Currency {
      */
     protected constructor(decimals: number, symbol?: string, name?: string);
 }
+// declare const ETHER: Currency;
 declare const ETHER: Currency;
-declare const HARMONYONE: Currency;
-export { ETHER, HARMONYONE };
+export { ETHER };

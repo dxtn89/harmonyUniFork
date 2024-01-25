@@ -1,7 +1,7 @@
 import useENS from '../../hooks/useENS'
 import { Version } from '../../hooks/useToggledVersion'
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, ETHER, HARMONYONE, JSBI, Token, TokenAmount, Trade } from 'constants/uniswap'
+import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from 'constants/uniswap'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,7 +35,7 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === ETHER ? 'ETH' : currency === HARMONYONE ? 'HARMONYONE' : ''
+          currencyId: currency instanceof Token ? currency.address : currency === ETHER ? 'ONE' : ''
         })
       )
     },
@@ -221,11 +221,10 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
   if (typeof urlParam === 'string') {
     const valid = isAddress(urlParam)
     if (valid) return valid
-    if (urlParam.toUpperCase() === 'ETH') return 'ETH'
-    if (urlParam.toUpperCase() === 'HARMONYONE') return 'HARMONYONE'
-    if (valid === false) return 'HARMONYONE'
+    if (urlParam.toUpperCase() === 'ONE') return 'ONE'
+    if (valid === false) return 'ONE'
   }
-  return 'HARMONYONE' ?? ''
+  return 'ONE' ?? ''
 }
 
 function parseTokenAmountURLParameter(urlParam: any): string {

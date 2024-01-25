@@ -63,8 +63,7 @@ export function useWETHContract(withSignerIfPossible?: boolean): Contract | null
 export function useArgentWalletDetectorContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    // chainId === ChainId.MAINNET ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
-    chainId === ChainId.TESTNET ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
+    chainId === ChainId.MAINNET ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
     ARGENT_WALLET_DETECTOR_ABI,
     false
   )
@@ -75,7 +74,7 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
   let address: string | undefined
   if (chainId) {
     switch (chainId) {
-      // case ChainId.HARMONY:
+      case ChainId.MAINNET:
       case ChainId.TESTNET:
       // case ChainId.MAINNET:
       // case ChainId.GÖRLI:
@@ -126,8 +125,7 @@ export function useStakingContract(stakingAddress?: string, withSignerIfPossible
 export function useSocksController(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    // chainId === ChainId.MAINNET ? '0x65770b5283117639760beA3F867b69b3697a91dd' : undefined,
-    chainId === ChainId.TESTNET ? '0x65770b5283117639760beA3F867b69b3697a91dd' : undefined,
+    chainId === ChainId.MAINNET ? '0x65770b5283117639760beA3F867b69b3697a91dd' : undefined,
     UNISOCKS_ABI,
     false
   )

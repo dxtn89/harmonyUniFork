@@ -1,7 +1,9 @@
-import { UNI, PRELOADED_PROPOSALS } from './../../constants/index'
+// import { UNI, PRELOADED_PROPOSALS } from './../../constants/index'
+import { PRELOADED_PROPOSALS } from './../../constants/index'
 import { TokenAmount } from 'constants/uniswap'
-import { isAddress } from 'ethers/lib/utils'
-import { useGovernanceContract, useUniContract } from '../../hooks/useContract'
+// import { isAddress } from 'ethers/lib/utils'
+// import { useGovernanceContract, useUniContract } from '../../hooks/useContract'
+import { useGovernanceContract } from '../../hooks/useContract'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { ethers, utils } from 'ethers'
@@ -147,59 +149,63 @@ export function useProposalData(id: string): ProposalData | undefined {
 }
 
 // get the users delegatee if it exists
-export function useUserDelegatee(): string {
-  const { account } = useActiveWeb3React()
-  const uniContract = useUniContract()
-  const { result } = useSingleCallResult(uniContract, 'delegates', [account ?? undefined])
-  return result?.[0] ?? undefined
+export function useUserDelegatee() {
+  // const { account } = useActiveWeb3React()
+  // const uniContract = useUniContract()
+  // const { result } = useSingleCallResult(uniContract, 'delegates', [account ?? undefined])
+  // return result?.[0] ?? undefined
+  return undefined
 }
 
 // gets the users current votes
 export function useUserVotes(): TokenAmount | undefined {
-  const { account, chainId } = useActiveWeb3React()
-  const uniContract = useUniContract()
+  // const { account, chainId } = useActiveWeb3React()
+  // const uniContract = useUniContract()
 
   // check for available votes
-  const uni = chainId ? UNI[chainId] : undefined
-  const votes = useSingleCallResult(uniContract, 'getCurrentVotes', [account ?? undefined])?.result?.[0]
-  return votes && uni ? new TokenAmount(uni, votes) : undefined
+  // const uni = chainId ? UNI[chainId] : undefined
+  // const votes = useSingleCallResult(uniContract, 'getCurrentVotes', [account ?? undefined])?.result?.[0]
+  // return votes && uni ? new TokenAmount(uni, votes) : undefined
+  return undefined
 }
 
 // fetch available votes as of block (usually proposal start block)
 export function useUserVotesAsOfBlock(block: number | undefined): TokenAmount | undefined {
-  const { account, chainId } = useActiveWeb3React()
-  const uniContract = useUniContract()
+  // const { account, chainId } = useActiveWeb3React()
+  // const uniContract = useUniContract()
 
   // check for available votes
-  const uni = chainId ? UNI[chainId] : undefined
-  const votes = useSingleCallResult(uniContract, 'getPriorVotes', [account ?? undefined, block ?? undefined])
-    ?.result?.[0]
-  return votes && uni ? new TokenAmount(uni, votes) : undefined
+  // const uni = chainId ? UNI[chainId] : undefined
+  // const votes = useSingleCallResult(uniContract, 'getPriorVotes', [account ?? undefined, block ?? undefined])?.result?.[0]
+  // return votes && uni ? new TokenAmount(uni, votes) : undefined
+  return undefined
 }
 
 export function useDelegateCallback(): (delegatee: string | undefined) => undefined | Promise<string> {
   const { account, chainId, library } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
 
-  const uniContract = useUniContract()
+  // const uniContract = useUniContract()
 
   return useCallback(
     (delegatee: string | undefined) => {
-      if (!library || !chainId || !account || !isAddress(delegatee ?? '')) return undefined
-      const args = [delegatee]
-      if (!uniContract) throw new Error('No UNI Contract!')
-      return uniContract.estimateGas.delegate(...args, {}).then(estimatedGasLimit => {
-        return uniContract
-          .delegate(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: `Delegated votes`
-            })
-            return response.hash
-          })
-      })
+      return undefined
+      // if (!library || !chainId || !account || !isAddress(delegatee ?? '')) return undefined
+      // const args = [delegatee]
+      // if (!uniContract) throw new Error('No UNI Contract!')
+      // return uniContract.estimateGas.delegate(...args, {}).then(estimatedGasLimit => {
+      //   return uniContract
+      //     .delegate(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
+      //     .then((response: TransactionResponse) => {
+      //       addTransaction(response, {
+      //         summary: `Delegated votes`
+      //       })
+      //       return response.hash
+      //     })
+      // })
     },
-    [account, addTransaction, chainId, library, uniContract]
+    // [account, addTransaction, chainId, library, uniContract]
+    [account, addTransaction, chainId, library]
   )
 }
 

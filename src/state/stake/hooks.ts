@@ -20,8 +20,7 @@ export const STAKING_REWARDS_INFO: {
     stakingRewardAddress: string
   }[]
 } = {
-  // [ChainId.MAINNET]: [
-  [ChainId.TESTNET]: [
+  [ChainId.MAINNET]: [
     // {
     //   tokens: [WETH[ChainId.MAINNET], DAI],
     //   stakingRewardAddress: '0xa1484C3aa22a66C62b77E0AE78E15258bd0cB711'
@@ -76,141 +75,141 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
   // detect if staking is ended
   const currentBlockTimestamp = useCurrentBlockTimestamp()
 
-  const info = useMemo(
-    () =>
-      chainId
-        ? STAKING_REWARDS_INFO[chainId]?.filter(stakingRewardInfo =>
-          pairToFilterBy === undefined
-            ? true
-            : pairToFilterBy === null
-              ? false
-              : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
-              pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
-        ) ?? []
-        : [],
-    [chainId, pairToFilterBy]
-  )
+  // const info = useMemo(
+  //   () =>
+  //     chainId
+  //       ? STAKING_REWARDS_INFO[chainId]?.filter(stakingRewardInfo =>
+  //         pairToFilterBy === undefined
+  //           ? true
+  //           : pairToFilterBy === null
+  //             ? false
+  //             : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
+  //             pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
+  //       ) ?? []
+  //       : [],
+  //   [chainId, pairToFilterBy]
+  // )
 
   const uni = chainId ? UNI[chainId] : undefined
 
-  const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
+  // const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
 
   const accountArg = useMemo(() => [account ?? undefined], [account])
 
   // get all the info from the staking rewards contracts
-  const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
-  const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
-  const totalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+  // const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
+  // const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
+  // const totalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
 
   // tokens per second, constants
-  const rewardRates = useMultipleContractSingleData(
-    rewardsAddresses,
-    STAKING_REWARDS_INTERFACE,
-    'rewardRate',
-    undefined,
-    NEVER_RELOAD
-  )
-  const periodFinishes = useMultipleContractSingleData(
-    rewardsAddresses,
-    STAKING_REWARDS_INTERFACE,
-    'periodFinish',
-    undefined,
-    NEVER_RELOAD
-  )
+  // const rewardRates = useMultipleContractSingleData(
+  //   rewardsAddresses,
+  //   STAKING_REWARDS_INTERFACE,
+  //   'rewardRate',
+  //   undefined,
+  //   NEVER_RELOAD
+  // )
+  // const periodFinishes = useMultipleContractSingleData(
+  //   rewardsAddresses,
+  //   STAKING_REWARDS_INTERFACE,
+  //   'periodFinish',
+  //   undefined,
+  //   NEVER_RELOAD
+  // )
 
   return useMemo(() => {
     if (!chainId || !uni) return []
+    return []
+    // return rewardsAddresses.reduce<StakingInfo[]>((memo, rewardsAddress, index) => {
+    //   // these two are dependent on account
+    //   const balanceState = balances[index]
+    //   const earnedAmountState = earnedAmounts[index]
 
-    return rewardsAddresses.reduce<StakingInfo[]>((memo, rewardsAddress, index) => {
-      // these two are dependent on account
-      const balanceState = balances[index]
-      const earnedAmountState = earnedAmounts[index]
+    //   // these get fetched regardless of account
+    //   const totalSupplyState = totalSupplies[index]
+    //   const rewardRateState = rewardRates[index]
+    //   const periodFinishState = periodFinishes[index]
 
-      // these get fetched regardless of account
-      const totalSupplyState = totalSupplies[index]
-      const rewardRateState = rewardRates[index]
-      const periodFinishState = periodFinishes[index]
+    //   if (
+    //     // these may be undefined if not logged in
+    //     !balanceState?.loading &&
+    //     !earnedAmountState?.loading &&
+    //     // always need these
+    //     totalSupplyState &&
+    //     !totalSupplyState.loading &&
+    //     rewardRateState &&
+    //     !rewardRateState.loading &&
+    //     periodFinishState &&
+    //     !periodFinishState.loading
+    //   ) {
+    //     if (
+    //       balanceState?.error ||
+    //       earnedAmountState?.error ||
+    //       totalSupplyState.error ||
+    //       rewardRateState.error ||
+    //       periodFinishState.error
+    //     ) {
+    //       console.error('Failed to load staking rewards info')
+    //       return memo
+    //     }
 
-      if (
-        // these may be undefined if not logged in
-        !balanceState?.loading &&
-        !earnedAmountState?.loading &&
-        // always need these
-        totalSupplyState &&
-        !totalSupplyState.loading &&
-        rewardRateState &&
-        !rewardRateState.loading &&
-        periodFinishState &&
-        !periodFinishState.loading
-      ) {
-        if (
-          balanceState?.error ||
-          earnedAmountState?.error ||
-          totalSupplyState.error ||
-          rewardRateState.error ||
-          periodFinishState.error
-        ) {
-          console.error('Failed to load staking rewards info')
-          return memo
-        }
+    //     // get the LP token
+    //     const tokens = info[index].tokens
+    //     const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
 
-        // get the LP token
-        const tokens = info[index].tokens
-        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
+    //     // check for account, if no account set to 0
 
-        // check for account, if no account set to 0
+    //     const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
+    //     const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]))
+    //     const totalRewardRate = new TokenAmount(uni, JSBI.BigInt(rewardRateState.result?.[0]))
 
-        const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
-        const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]))
-        const totalRewardRate = new TokenAmount(uni, JSBI.BigInt(rewardRateState.result?.[0]))
+    //     const getHypotheticalRewardRate = (
+    //       stakedAmount: TokenAmount,
+    //       totalStakedAmount: TokenAmount,
+    //       totalRewardRate: TokenAmount
+    //     ): TokenAmount => {
+    //       return new TokenAmount(
+    //         uni,
+    //         JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+    //           ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+    //           : JSBI.BigInt(0)
+    //       )
+    //     }
 
-        const getHypotheticalRewardRate = (
-          stakedAmount: TokenAmount,
-          totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
-        ): TokenAmount => {
-          return new TokenAmount(
-            uni,
-            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
-              : JSBI.BigInt(0)
-          )
-        }
+    //     const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
 
-        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
+    //     const periodFinishSeconds = periodFinishState.result?.[0]?.toNumber()
+    //     const periodFinishMs = periodFinishSeconds * 1000
 
-        const periodFinishSeconds = periodFinishState.result?.[0]?.toNumber()
-        const periodFinishMs = periodFinishSeconds * 1000
+    //     // compare period end timestamp vs current block timestamp (in seconds)
+    //     const active =
+    //       periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true
 
-        // compare period end timestamp vs current block timestamp (in seconds)
-        const active =
-          periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true
-
-        memo.push({
-          stakingRewardAddress: rewardsAddress,
-          tokens: info[index].tokens,
-          periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
-          earnedAmount: new TokenAmount(uni, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
-          rewardRate: individualRewardRate,
-          totalRewardRate: totalRewardRate,
-          stakedAmount: stakedAmount,
-          totalStakedAmount: totalStakedAmount,
-          getHypotheticalRewardRate,
-          active
-        })
-      }
-      return memo
-    }, [])
+    //     memo.push({
+    //       stakingRewardAddress: rewardsAddress,
+    //       tokens: info[index].tokens,
+    //       periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
+    //       earnedAmount: new TokenAmount(uni, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
+    //       rewardRate: individualRewardRate,
+    //       totalRewardRate: totalRewardRate,
+    //       stakedAmount: stakedAmount,
+    //       totalStakedAmount: totalStakedAmount,
+    //       getHypotheticalRewardRate,
+    //       active
+    //     })
+    //   }
+    //   return memo
+    // }, [])
   }, [
-    balances,
+    // balances,
     chainId,
     currentBlockTimestamp,
-    earnedAmounts,
-    info,
-    periodFinishes,
-    rewardRates,
-    rewardsAddresses,
-    totalSupplies,
+    // earnedAmounts,
+    // info,
+    // periodFinishes,
+    // rewardRates,
+    // rewardsAddresses,
+    // totalSupplies,
     uni
   ])
 }
@@ -218,17 +217,20 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 export function useTotalUniEarned(): TokenAmount | undefined {
   const { chainId } = useActiveWeb3React()
   const uni = chainId ? UNI[chainId] : undefined
-  const stakingInfos = useStakingInfo()
+  // const stakingInfos = useStakingInfo()
 
   return useMemo(() => {
     if (!uni) return undefined
-    return (
-      stakingInfos?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(uni, '0')
-      ) ?? new TokenAmount(uni, '0')
-    )
-  }, [stakingInfos, uni])
+    // return (
+    //   stakingInfos?.reduce(
+    //     (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+    //     new TokenAmount(uni, '0')
+    //   ) ?? new TokenAmount(uni, '0')
+    // )
+    return undefined
+  }, [
+    // stakingInfos,
+    uni])
 }
 
 // based on typed value

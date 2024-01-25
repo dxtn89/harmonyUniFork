@@ -125,11 +125,11 @@ export default function Pool() {
 
   const { chainId } = useActiveWeb3React()
 
-  let pairInitialParam = "/create/HARMONYONE"
-  let liquidityInitialParam = "/add/HARMONYONE"
-  if (chainId !== 1666600000 && chainId !== 1666700000) {
-    pairInitialParam = "/create/ETH"
-    liquidityInitialParam = "/add/ETH"
+  let pairInitialParam = "/create/ONE"
+  let liquidityInitialParam = "/add/ONE"
+  if (chainId !== 1666700000) {
+    pairInitialParam = "/create/ONE"
+    liquidityInitialParam = "/add/ONE"
   }
 
   return (

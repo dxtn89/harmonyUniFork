@@ -81,10 +81,11 @@ export function useUserUnclaimedAmount(account: string | null | undefined): Toke
 
   const uni = chainId ? UNI[chainId] : undefined
   if (!uni) return undefined
-  if (!canClaim || !userClaimData) {
-    return new TokenAmount(uni, JSBI.BigInt(0))
-  }
-  return new TokenAmount(uni, JSBI.BigInt(userClaimData.amount))
+  return undefined
+  // if (!canClaim || !userClaimData) {
+  //   return new TokenAmount(uni, JSBI.BigInt(0))
+  // }
+  // return new TokenAmount(uni, JSBI.BigInt(userClaimData.amount))
 }
 
 export function useClaimCallback(

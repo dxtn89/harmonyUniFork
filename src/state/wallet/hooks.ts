@@ -1,5 +1,5 @@
 import { UNI } from './../../constants/index'
-import { Currency, CurrencyAmount, HARMONYONE, JSBI, Token, TokenAmount } from 'constants/uniswap'
+import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from 'constants/uniswap'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
@@ -106,20 +106,18 @@ export function useCurrencyBalances(
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  // const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
-  const containsHARMONYONE: boolean = useMemo(() => currencies?.some(currency => currency === HARMONYONE) ?? false, [currencies])
+  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
+  const ethBalance = useETHBalances(containsETH ? [account] : [])
 
-  // const ethBalance = useETHBalances(containsETH ? [account] : [])
-  const harmonyOneBalance = useETHBalances(containsHARMONYONE ? [account] : [])
   return useMemo(
     () =>
       currencies?.map(currency => {
         if (!account || !currency) return undefined
         if (currency instanceof Token) return tokenBalances[currency.address]
-        if (currency === HARMONYONE) return harmonyOneBalance[account]
+        if (currency === ETHER) return ethBalance[account]
         return undefined
       }) ?? [],
-    [account, currencies, harmonyOneBalance, tokenBalances]
+    [account, currencies, ethBalance, tokenBalances]
   )
 }
 
@@ -142,17 +140,18 @@ export function useAggregateUniBalance(): TokenAmount | undefined {
 
   const uni = chainId ? UNI[chainId] : undefined
 
-  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, uni)
-  const uniUnclaimed: TokenAmount | undefined = useUserUnclaimedAmount(account)
-  const uniUnHarvested: TokenAmount | undefined = useTotalUniEarned()
+  // const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, uni)
+  // const uniUnclaimed: TokenAmount | undefined = useUserUnclaimedAmount(account)
+  // const uniUnHarvested: TokenAmount | undefined = useTotalUniEarned()
 
   if (!uni) return undefined
+  return undefined
 
-  return new TokenAmount(
-    uni,
-    JSBI.add(
-      JSBI.add(uniBalance?.raw ?? JSBI.BigInt(0), uniUnclaimed?.raw ?? JSBI.BigInt(0)),
-      uniUnHarvested?.raw ?? JSBI.BigInt(0)
-    )
-  )
+  // return new TokenAmount(
+  //   uni,
+  //   JSBI.add(
+  //     JSBI.add(uniBalance?.raw ?? JSBI.BigInt(0), uniUnclaimed?.raw ?? JSBI.BigInt(0)),
+  //     uniUnHarvested?.raw ?? JSBI.BigInt(0)
+  //   )
+  // )
 }

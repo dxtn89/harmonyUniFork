@@ -6,7 +6,7 @@ export enum ChainId {
     // RINKEBY = 4,
     // GÖRLI = 5,
     // KOVAN = 42,
-    // HARMONY = 1666600000,
+    MAINNET = 1666600000,
     TESTNET = 1666700000
 }
 export declare enum TradeType {
