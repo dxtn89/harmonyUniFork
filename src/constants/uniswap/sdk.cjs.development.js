@@ -1570,7 +1570,7 @@ var Fetcher = /*#__PURE__*/function () {
       if (provider === undefined) provider = providers.getDefaultProvider(networks.getNetwork(tokenA.chainId));
       !(tokenA.chainId === tokenB.chainId) ? "development" !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
       var address = Pair.getAddress(tokenA, tokenB);
-      console.log("pair address fetch", address)
+      // console.log("pair address fetch", address)
       return Promise.resolve(new contracts.Contract(address, IUniswapV2Pair.abi, provider).getReserves()).then(function (_ref) {
         var reserves0 = _ref[0],
             reserves1 = _ref[1];

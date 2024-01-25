@@ -1,5 +1,5 @@
 import { isTradeBetter } from 'utils/trades'
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '../constants/uniswap'
+import { Currency, CurrencyAmount, Pair, Token, Trade } from 'constants/uniswap'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
 

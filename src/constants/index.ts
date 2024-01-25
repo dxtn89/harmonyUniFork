@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '../constants/uniswap'
+import { ChainId, JSBI, Percent, Token, WETH } from 'constants/uniswap'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'

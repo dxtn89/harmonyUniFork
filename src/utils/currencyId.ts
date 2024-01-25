@@ -1,4 +1,4 @@
-import { Currency, ETHER, HARMONYONE, Token } from '../constants/uniswap'
+import { Currency, ETHER, HARMONYONE, Token } from 'constants/uniswap'
 
 export function currencyId(currency: Currency): string {
   if (currency === ETHER) return 'ETH'

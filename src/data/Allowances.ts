@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from '../constants/uniswap'
+import { Token, TokenAmount } from 'constants/uniswap'
 import { useMemo } from 'react'
 
 import { useTokenContract } from '../hooks/useContract'

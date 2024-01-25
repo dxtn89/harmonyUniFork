@@ -1,4 +1,4 @@
-import { CurrencyAmount, ETHER, JSBI } from '../constants/uniswap'
+import { CurrencyAmount, ETHER, JSBI } from 'constants/uniswap'
 import { MIN_ETH } from '../constants'
 
 /**
